@@ -1,0 +1,25 @@
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inputHint {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 16px 16px 32px;
+  border: 1px solid gray;
+}
+
+.label {
+  flex-grow: 2;
+  position: relative;
+  margin-left: 8px;
+}
+
+.svgIconQuestion {
+  position: absolute;
+  color: black;
+  top: 12px;
+  left: 12px;
+}

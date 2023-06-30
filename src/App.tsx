@@ -1,45 +1,21 @@
-import React, { useContext, useState } from "react";
+import { useEffect} from "react";
 
 import { observer } from "mobx-react-lite";
-import { storeContext } from "./store";
+import { store } from "./store";
+import AddLocationForm from './components/add-location-form/add-location-form.component'
+import style from './app.module.css'
 
-export default function App() {
+export default observer(function App() {
+
+  const { isLoaded, fetchData } = store
+
+  useEffect(()=>{
+    fetchData()
+  }, [fetchData])
+
   return (
-    <div className="App">
-      <TestLocationsList />
+    <div className={style.app}>
+      { isLoaded ? <AddLocationForm/>:<h1>Идет загрузка</h1> }
     </div>
   );
-}
-
-const TestLocationForm = observer(function TestLocationForm() {
-  const store = useContext(storeContext);
-  if (!store.isLoaded) {
-    return <div>Данные не загружены</div>;
-  }
-  return <div>Hello world</div>;
-});
-
-const TestLocationsList = () => {
-  const [locationsList, setLocationsList] = useState([{}]);
-  return (
-    <>
-      {locationsList.map((location, index) => (
-        <TestLocationForm key={`location-${index}`} />
-      ))}
-      <button
-        onClick={() => {
-          setLocationsList([...locationsList, {}]);
-        }}
-      >
-        Добавить тестовую локацию
-      </button>
-      <button
-        onClick={() => {
-          console.log(locationsList);
-        }}
-      >
-        Вывести результат в консоль
-      </button>
-    </>
-  );
-};
+})

@@ -1,6 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
-import { createContext } from "react";
 import sample from "./data.json";
 
 function sleep(ms: number): Promise<void> {
@@ -24,14 +23,24 @@ export interface Server {
   envID: number;
 }
 
+export interface TestLocation {
+  testLocationId: string;
+  serverIDs: number[];
+  locationID: number;
+  envID: number;
+  hint: string;
+}
+
 export class Store {
   isLoaded = false;
   locations: Location[] = [];
   envs: Env[] = [];
   servers: Server[] = [];
+  testLocations: TestLocation[] = []
+  hintActiveForm: string = ''
 
   fetchData = async () => {
-    await sleep(3000);
+    await sleep(1000);
     runInAction(() => {
       this.locations = sample.locations;
       this.envs = sample.envs;
@@ -40,10 +49,18 @@ export class Store {
     });
   };
 
+  addTestLocation = (testLocation: Omit<TestLocation, 'hint'>)=>{
+    this.testLocations.push({...testLocation, hint:this.hintActiveForm})
+    this.hintActiveForm = ''
+  }
+
+  addHint = (hint:string)=>{
+    this.hintActiveForm = hint
+  }
+
   constructor() {
     makeAutoObservable(this);
   }
 }
 
 export const store = new Store();
-export const storeContext = createContext(store);
