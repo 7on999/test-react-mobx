@@ -18,9 +18,7 @@ export default observer(function AddLocationForm():JSX.Element{
   const [availableServers, setAvailableServers] = useState<Server[]>([])
 
   const onLocationChange = (event:ChangeEvent<HTMLSelectElement>)=>{
-    console.log('event.target.value from onChangeLocation:', event.target.value)
     const locationId = locations.find(location=>location.name===event.target.value)?.locationID
-    console.log('locationId from onLocationChange:', locationId)
     if (locationId) setLocationId(locationId)
   }
 
@@ -30,11 +28,6 @@ export default observer(function AddLocationForm():JSX.Element{
   }
 
   useEffect(()=>{
-    console.log('locationId:', locationId)
-    console.log('envID:', envId)
-    console.log('servers:', servers)
-    const x = servers.filter(server=>server.locationID===locationId && server.envID===envId)
-    console.log('server after filter:', x.map(el=>el.name))
       setAvailableServers(servers.filter(server=>server.locationID===locationId && server.envID===envId))
   }, [locationId, envId, servers])
 
