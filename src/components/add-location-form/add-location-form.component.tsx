@@ -18,7 +18,9 @@ export default observer(function AddLocationForm():JSX.Element{
   const [availableServers, setAvailableServers] = useState<Server[]>([])
 
   const onLocationChange = (event:ChangeEvent<HTMLSelectElement>)=>{
+    console.log('event.target.value from onChangeLocation:', event.target.value)
     const locationId = locations.find(location=>location.name===event.target.value)?.locationID
+    console.log('locationId from onLocationChange:', locationId)
     if (locationId) setLocationId(locationId)
   }
 
@@ -28,6 +30,11 @@ export default observer(function AddLocationForm():JSX.Element{
   }
 
   useEffect(()=>{
+    console.log('locationId:', locationId)
+    console.log('envID:', envId)
+    console.log('servers:', servers)
+    const x = servers.filter(server=>server.locationID===locationId && server.envID===envId)
+    console.log('server after filter:', x.map(el=>el.name))
       setAvailableServers(servers.filter(server=>server.locationID===locationId && server.envID===envId))
   }, [locationId, envId, servers])
 
@@ -70,9 +77,7 @@ export default observer(function AddLocationForm():JSX.Element{
             <span> Локация </span>
             <label className={style.customSelect}>
               <select className={style.select} onChange={onLocationChange}>
-                {locations.map(location=>
-                  (<option key={location.locationID} className={style.option}> 
-                    {`${location.name}`} </option>))}
+                {locations.map(location=>(<option key={location.locationID}> {location.name} </option>))}
               </select>
               <FontAwesomeIcon icon={faLocationDot} size='lg' className={style.customElement}/>
             </label>
@@ -83,7 +88,7 @@ export default observer(function AddLocationForm():JSX.Element{
             <span> Среда </span>
             <label className={style.customSelect}> 
               <select className={style.select} onChange={onEnvChange}>
-                {envs.map(env=>(<option key={env.envID} value=''> {env.name} </option>))}
+                {envs.map(env=>(<option key={env.envID}> {env.name} </option>))}
               </select>
               <FontAwesomeIcon icon={faLeaf} flip="horizontal" size='lg' className={style.customElement}/>
             </label>

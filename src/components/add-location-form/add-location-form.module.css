@@ -95,11 +95,6 @@
   left: 3px;
 }
 
-.option {
-  display: flex;
-  justify-content: space-between;
-}
-
 .customSelect {
   position: relative;
 }
