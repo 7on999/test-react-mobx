@@ -40,7 +40,7 @@ export class Store {
   hintActiveForm: string = ''
 
   fetchData = async () => {
-    await sleep(1000);
+    await sleep(3000);
     runInAction(() => {
       this.locations = sample.locations;
       this.envs = sample.envs;
